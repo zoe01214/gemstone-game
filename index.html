@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;800&display=swap"
+    rel="stylesheet">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #062539;
+      font-family: 'Barlow Semi Condensed', sans-serif;
+    }
+
+
+    #game {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: url(./images/bg.jpeg) repeat-x bottom/cover;
+      cursor: url(./images/cursor.png) 20 15, auto;
+    }
+
+    #game img {
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    input {
+      cursor: url(./images/cursor.png) 20 15, auto;
+    }
+
+    .balls,
+    .mans {
+      position: absolute;
+    }
+
+    #arms {
+      position: absolute;
+      bottom: -2px;
+      height: 25vh;
+    }
+
+    #arms,
+    .h1,
+    .mans,
+    #text-score,
+    #text-time {
+      z-index: 2;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    #start {
+      width: 100vw;
+      height: 100vh;
+      background: rgba(75, 75, 75, 0.3);
+    }
+
+    .alert-box {
+      width: 50vw;
+      height: 60vh;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      padding: 20px;
+    }
+
+    .title {
+      /* position: absolute; */
+      text-align: center;
+      font-size: 2.8rem;
+    }
+
+    .intros {
+      width: 45vw;
+      height: 35vh;
+      border: 1px solid black;
+      position: relative;
+      margin: 3vh auto;
+      text-align: center;
+      background: url(./images/intro1.gif) no-repeat center center/cover;
+    }
+
+    .prevpage {
+      position: absolute;
+      top: 50%;
+      left: -1rem;
+      transform: translateY(-50%);
+      width: 2rem;
+      height: 2rem;
+      background: url(./images/prevpage.png) center center/contain;
+      border-radius: 50%;
+    }
+
+    .nextpage {
+      position: absolute;
+      top: 50%;
+      right: -1rem;
+      transform: translateY(-50%);
+      width: 2rem;
+      height: 2rem;
+      background: url(./images/nextpage.png) center center/contain;
+      border-radius: 50%;
+    }
+
+    .text-intro {
+      display: inline-block;
+      font-size: 2rem;
+      color: white;
+      font-weight: 600;
+      padding-top: 1vh;
+      text-shadow: 0px 0px 10px rgb(0, 0, 0);
+    }
+
+    #start-border {
+      width: 260px;
+      height: 88px;
+      background: #d36300;
+      margin: 4vh auto;
+      position: relative;
+      border: 1px solid #bb5301;
+      border-radius: 10px 10px;
+    }
+
+
+    input {
+      width: 260px;
+      height: 80px;
+      font-size: 58px;
+      line-height: 72px;
+      font-weight: 800;
+      background: linear-gradient(#ffbb45 50%, #ffa62a 51%);
+      border: 4px solid #ffaa32;
+      border-radius: 10px 10px;
+      -webkit-text-stroke: 1px #cc5e00;
+      text-shadow: -2px 3px 0px #cc5e00;
+      color: white;
+      position: absolute;
+    }
+
+    #text-score {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8rem;
+      color: white;
+      position: absolute;
+    }
+
+    #text-time {
+      position: absolute;
+      font-size: 5rem;
+      right: 0;
+      color: black;
+      font-weight: 600;
+      width: 120px;
+      height: 120px;
+      line-height: 110px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      position: absolute;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    .over-left {
+      float: left;
+      width: 70%;
+      height: 100%;
+    }
+
+    .over-right {
+      float: right;
+      width: 30%;
+      height: 100%;
+    }
+
+    .right-top {
+      height: 20%;
+    }
+
+    .score-title {
+      width: 100%;
+      height: 15%;
+      font-size: 3rem;
+      color: black;
+    }
+
+    .score {
+      width: 100%;
+      height: 85%;
+      background: url(./images/top.png) no-repeat bottom center/contain;
+      font-size: 6rem;
+      line-height: 20vh;
+    }
+
+    .best-score {
+      height: 65%;
+      color: black;
+      font-size: 4rem;
+      line-height: 65vh;
+    }
+
+    #status {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes animation0 {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(720deg);
+      }
+    }
+
+    @keyframes animation1 {
+      from {
+        transform: rotate(-180deg);
+      }
+
+      to {
+        transform: rotate(450deg);
+      }
+    }
+
+    @keyframes animation2 {
+      from {
+        transform: rotate(360deg);
+      }
+
+      to {
+        transform: rotate(-720deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <audio src=" ./images/bgmusic.mp3" volume="0.0" id="bgaudio" autoplay="true"></audio>
+  <audio src="./images/11789.mp3" volume="0.0" id="hitaudio"></audio>
+  <div id="game">
+    <div id="start">
+      <div class="alert-box">
+        <div class="title">How to Play</div>
+        <div class="intros">
+          <div class="prevpage"></div>
+          <div class="nextpage"></div>
+          <span class="text-intro">Move to control and Click to shoot!</span>
+        </div>
+        <div id="start-border">
+          <input type="button" value="START" id="btn-start">
+        </div>
+      </div>
+    </div>
+    <div id="status"></div>
+    <img src="./images/arm.png" alt="" id="arms">
+    <div id="flymangroup"></div>
+    <img class="h1" src="./images/heart.png" height="80">
+    <img class="h1" src="./images/heart.png" height="80">
+    <img class="h1" src="./images/heart.png" height="80">
+    <span id="text-score">0</span>
+    <span id="text-time">0</span>
+    <div id="over">
+      <div class="alert-box">
+        <div class="title"><span class="reason">TIMES UP!</span></div>
+        <div class="intros">
+          <div class="score-title">Score</div>
+          <div class="score">241</div>
+        </div>
+        <div id="start-border">
+          <input type="button" value="AGAIN" id="btn-again">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./jquery-3.6.0.min.js"></script>
+  <script>
+    const hitaudio = document.getElementById('hitaudio')
+    const bgaudio = document.getElementById('bgaudio')
+    let intViewportHeight = window.innerHeight;
+    let intViewportWidth = window.innerWidth;
+    let score = 0
+    let countdown = 60
+    let catchtimer = 0
+    let timer = 0
+    let mouseX = 0
+    let heart = 2
+    let speed = 4200
+    let ball = [{
+      'color': 'greenball',
+    }, {
+      'color': 'orangeball',
+    }, {
+      'color': 'blueball',
+    }, {
+      'color': 'redball',
+    }, {
+      'color': 'colorball',
+    }]
+
+    bgaudio.volume = 0.2;
+    hitaudio.volume = 0.2;
+
+
+    $('#over').css('display', 'none')
+
+    $('.prevpage').click(function () {
+      if ($('.intros').css('background').includes('2')) {
+        $('.intros').css('background', $('.intros').css('background').replace('2.gif', '1.gif'))
+        $('.text-intro').text('Move to control and Click to shoot!')
+      }
+      if ($('.intros').css('background').includes('3')) {
+        $('.intros').css('background', $('.intros').css('background').replace('3.gif', '2.gif'))
+        $('.text-intro').text('Shoot the gemstones to get score!')
+      }
+    })
+    $('.nextpage').click(function () {
+      if ($('.intros').css('background').includes('2')) {
+        $('.intros').css('background', $('.intros').css('background').replace('2.gif', '3.gif'))
+      }
+      if ($('.intros').css('background').includes('1')) {
+        $('.intros').css('background', $('.intros').css('background').replace('1.gif', '2.gif'))
+        $('.text-intro').text('Shoot the gemstones to get score!')
+      }
+      if ($('.intros').css('background').includes('3')) {
+        $('.text-intro').text('Watch out for the rolling gemstones!')
+      }
+    })
+
+    $('#btn-start').click(function () {
+      bgaudio.play()
+      // 鼠標及彈弓--------------------------------------//
+      $('#game').mousemove(function (event) {
+        mouseX = event.pageX
+
+        $('#arms').css('left', mouseX - (parseInt($('#arms').css('width')) / 2) + 'px')
+      })
+
+      // 球&人生產器-------------------------------------//
+
+      const ballmove = (balls, speed) => {
+        balls.animate({
+          top: '100vh',
+        }, speed, function () {
+          balls.remove()
+        })
+      }
+      const ballcreat = () => {
+        let rand = Math.round(Math.random() * 4)
+        const balls = $(`<img class='balls' src="./images/${ball[rand].color}.png" alt="" style="left:${Math.round(Math.random() * 880 + 200)}px;top:0vh;width:100px;z-index:1;  animation: animation${Math.round(Math.random() * 2)} 5s 1 ease alternate forwards;">`)
+        $('#game').append(balls)
+        ballmove(balls, speed)
+      }
+
+      const flymansmove = (flymans) => {
+        flymans.animate({
+          top: '0vh',
+        }, 1500, function () {
+          flymans.remove()
+        })
+      }
+      const mancreat = () => {
+        // left定位: mouseX-圖片寬度/2
+        let flymans = $(`<img class="mans" src="./images/flyman1.png" width="100px" style="left: ${mouseX - 50}px ;top: ${intViewportHeight - parseInt($('#arms').css('height'))}px;">`)
+        $('#flymangroup').append(flymans)
+        flymansmove(flymans)
+      }
+
+      // 開始按鈕隱藏---------------------------------------//
+
+      $('#start').css('display', 'none')
+      $(this).attr('disabled', true)
+      score = 0
+      $('#text-score').text(score)
+
+      // 遊戲結束判定---------------------------------------//
+
+      const gameOver = () => {
+        countdown = 0
+        clearInterval(timer)
+        clearInterval(ball)
+        clearInterval(balltimer)
+        clearInterval(catchtimer)
+      }
+
+      // 時間計時器----------------------------------------//
+
+      timer = setInterval(() => {
+        console.log(speed)
+        speed -= 50
+        countdown--
+        $('#text-time').text(countdown)
+        if (heart === -1 || countdown <= 0) {
+          $('.intros').css('background', 'rgba(255,255,255,0.3)')
+          $('#game').css('cursor', ' url(./images/cursor.png) 20 15, auto;')
+          $('#text-time').text(countdown)
+          $('.reason').text('Game Over!')
+          $('.score').text(score)
+          $('#game .balls .mans').remove()
+          $('#over').css({
+            display: 'block',
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(75, 75, 75, 0.3)'
+          })
+          gameOver()
+        }
+      }, 1000);
+
+
+
+      // 球球計時器----------------------------------------//
+
+      balltimer = setInterval(() => {
+        ballcreat()
+        setTimeout(() => {
+          ballcreat()
+        }, 10000)
+      }, 800)
+
+      // 點擊發射-------------------------------------------//
+
+      $('#game').click(function () {
+        mancreat()
+      })
+
+      // 抓球計時器-----------------------------------------//
+      catchtimer = setInterval(() => {
+        for (let i = 0; i < $('.balls').length; i++) {
+          for (let j = 0; j <= $('.mans').length; j++) {
+            let balsX = parseInt($('.balls').eq(i).offset().left)
+            let mansX = parseInt($('.mans').eq(j).css('left'))
+            let balsY = parseInt($('.balls').eq(i).css('top'))
+            let mansY = parseInt($('.mans').eq(j).css('top'))
+            let armsX = parseInt($('#arms').css('left'))
+            let armsW = parseInt($('#arms').css('width'))
+            let balsW = parseInt($('.balls').css('width'))
+            let statustext = ''
+            // 判斷人物是否在球的X、Y軸範圍內
+            if (mansX + 100 == balsX || (mansX + 100 >= balsX && balsX >= mansX) || balsX === mansX || (balsX + 100 >= mansX && mansX >= balsX) || balsX + 100 == mansX) {
+              if (balsY <= mansY && balsY + 100 >= mansY) {
+                if ($('.balls').eq(i).attr('src').includes('orange') && !$('.balls').eq(i).attr('src').includes('1.png')) {
+                  score += 10
+                  statustext = '+10'
+                }
+                if ($('.balls').eq(i).attr('src').includes('green') && !$('.balls').eq(i).attr('src').includes('1.png')) {
+                  score += 5
+                  statustext = '+5'
+                }
+                if ($('.balls').eq(i).attr('src').includes('color') && !$('.balls').eq(i).attr('src').includes('1.png')) {
+                  score += 15
+                  statustext = '+15'
+                }
+                if ($('.balls').eq(i).attr('src').includes('blue') && !$('.balls').eq(i).attr('src').includes('1.png')) {
+                  score += 12
+                  statustext = '+12'
+                }
+                if ($('.balls').eq(i).attr('src').includes('red') && !$('.balls').eq(i).attr('src').includes('1.png')) {
+                  score += 8
+                  statustext = '+8'
+                }
+                $('#game').append(`<div class="status" style="height:10vh;display:flex;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:white;font-size:5rem;text-shadow:0px 0px 8px black;">${statustext}</div>`)
+                setTimeout(() => {
+                  $('.status').remove()
+                }, 500);
+                $('.balls').eq(i).attr('src', $('.balls').eq(i).attr('src').replace('ball.png', 'ball1.png'))
+                $('.mans').eq(j).remove()
+                break
+              }
+            }
+            // 判斷球是否落在ARMS扣分範圍內
+            if (balsY >= 0.73 * intViewportHeight - 20 && balsY <= 0.74 * intViewportHeight + 20 && !$('.balls').eq(i).attr('src').includes('1.png')) {
+              if (armsX >= balsX && balsX + balsW >= armsX || armsX <= balsX && armsX + armsW >= balsX) {
+                hitaudio.play()
+                $('.balls').eq(i).remove()
+                $('#arms').attr('src', './images/armhurt.png')
+                $('#game').append('<div class="status" style="height:10vh;display:flex;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:white;font-size:6rem;text-shadow:0px 0px 8px black;"><img src="./images/heart.png" height="100%">- -</div>')
+                setTimeout(() => {
+                  $('.status').remove()
+                  $('#arms').attr('src', './images/arm.png')
+                }, 500);
+                $('.h1').eq(heart).attr('src', $('.h1').eq(heart).attr('src').replace('heart.png', 'heart1.png'))
+                heart--
+                break
+              }
+            }
+          }
+        }
+        $('#text-score').text(score)
+      }, 100);
+    })
+
+
+    $('#btn-again').click(function () {
+      window.location.reload();
+    })
+
+
+  </script>
+</body>
+
+</html>
