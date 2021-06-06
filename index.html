@@ -60,6 +60,7 @@
     }
 
     #start {
+      box-sizing: border-box;
       width: 100vw;
       height: 100vh;
       background: rgba(75, 75, 75, 0.3);
@@ -125,21 +126,24 @@
     }
 
     #start-border {
-      width: 260px;
-      height: 88px;
+      box-sizing: border-box;
+      width: 12vw;
+      height: 5vw;
       background: #d36300;
-      margin: 4vh auto;
+      margin: 3vh auto;
       position: relative;
       border: 1px solid #bb5301;
       border-radius: 10px 10px;
+      min-width: 140px;
+      min-height: 55px;
     }
 
 
     input {
-      width: 260px;
-      height: 80px;
-      font-size: 58px;
-      line-height: 72px;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      font-size: 2rem;
       font-weight: 800;
       background: linear-gradient(#ffbb45 50%, #ffa62a 51%);
       border: 4px solid #ffaa32;
@@ -147,7 +151,6 @@
       -webkit-text-stroke: 1px #cc5e00;
       text-shadow: -2px 3px 0px #cc5e00;
       color: white;
-      position: absolute;
     }
 
     #text-score {
@@ -193,6 +196,8 @@
     }
 
     .score-title {
+
+      box-sizing: border-box;
       width: 100%;
       height: 15%;
       font-size: 3rem;
@@ -200,9 +205,9 @@
     }
 
     .score {
+      box-sizing: border-box;
       width: 100%;
-      height: 85%;
-      background: url(./images/top.png) no-repeat bottom center/contain;
+      height: 50%;
       font-size: 6rem;
       line-height: 20vh;
     }
@@ -220,6 +225,60 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
+    .catchball {
+      width: 100%;
+      height: 35%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    .x {
+      width: 20%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    .green img,
+    .orange img,
+    .blue img,
+    .red img,
+    .color img {
+      height: 60%;
+    }
+
+    .green,
+    .orange,
+    .blue,
+    .red,
+    .color {
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .num {
+
+      box-sizing: border-box;
+    }
+
+    .greennum,
+    .orangenum,
+    .bluenum,
+    .rednum,
+    .colornum {
+
+      box-sizing: border-box;
+      font-size: 2rem;
+    }
+
 
     @keyframes animation0 {
       from {
@@ -250,11 +309,44 @@
         transform: rotate(-720deg);
       }
     }
+
+    @media (max-width:880px) {
+
+      #game #start .title {
+        font-size: 2rem;
+      }
+
+      #game #start .text-intro {
+        font-size: 1.7rem;
+      }
+
+      #game #start #start-border #btn-start {
+        font-size: 1.5rem;
+      }
+
+      .green,
+      .orange,
+      .blue,
+      .red,
+      .color {
+        font-size: 1.2rem;
+        font-weight: 800;
+      }
+
+      .greennum,
+      .orangenum,
+      .bluenum,
+      .rednum,
+      .colornum {
+
+        font-size: 1.3rem;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <audio src=" ./images/bgmusic.mp3" volume="0.0" id="bgaudio" autoplay="true"></audio>
+  <audio src=" ./images/bgmusic.mp3" volume="0.0" id="bgaudio" autoplay="true" loop></audio>
   <audio src="./images/11789.mp3" volume="0.0" id="hitaudio"></audio>
   <div id="game">
     <div id="start">
@@ -284,6 +376,47 @@
         <div class="intros">
           <div class="score-title">Score</div>
           <div class="score">241</div>
+          <div class="catchball">
+            <div class="x">
+              <div class="green"><img src="./images/greenball.png" alt="">
+                <div class="num">X</div>
+                <div class="greennum">0</div>
+              </div>
+
+            </div>
+
+            <div class="x">
+              <div class="orange"><img src="./images/orangeball.png" alt="">
+                <div class="num">X</div>
+                <div class="orangenum">0</div>
+              </div>
+
+            </div>
+
+            <div class="x">
+              <div class="blue"><img src="./images/blueball.png" alt="">
+                <div class="num">X</div>
+                <div class="bluenum">0</div>
+              </div>
+
+            </div>
+
+            <div class="x">
+              <div class="red"><img src="./images/redball.png" alt="">
+                <div class="num">X</div>
+                <div class="rednum">0</div>
+              </div>
+
+            </div>
+
+            <div class="x">
+              <div class="color"><img src="./images/colorball.png" alt="">
+                <div class="num">X</div>
+                <div class="colornum">0</div>
+              </div>
+
+            </div>
+          </div>
         </div>
         <div id="start-border">
           <input type="button" value="AGAIN" id="btn-again">
@@ -299,7 +432,7 @@
     let intViewportHeight = window.innerHeight;
     let intViewportWidth = window.innerWidth;
     let score = 0
-    let countdown = 60
+    let countdown = 45
     let catchtimer = 0
     let timer = 0
     let mouseX = 0
@@ -316,6 +449,7 @@
     }, {
       'color': 'colorball',
     }]
+    let catchball = [0, 0, 0, 0, 0]
 
     bgaudio.volume = 0.2;
     hitaudio.volume = 0.2;
@@ -409,12 +543,19 @@
         speed -= 50
         countdown--
         $('#text-time').text(countdown)
+        // 遊戲結束--------------------------------------------//
         if (heart === -1 || countdown <= 0) {
           $('.intros').css('background', 'rgba(255,255,255,0.3)')
           $('#game').css('cursor', ' url(./images/cursor.png) 20 15, auto;')
           $('#text-time').text(countdown)
+          $('.greennum').text(catchball[0])
+          $('.orangenum').text(catchball[1])
+          $('.bluenum').text(catchball[2])
+          $('.rednum').text(catchball[3])
+          $('.colornum').text(catchball[4])
           $('.reason').text('Game Over!')
           $('.score').text(score)
+          $('#text-score').text('')
           $('#game .balls .mans').remove()
           $('#over').css({
             display: 'block',
@@ -461,22 +602,27 @@
                 if ($('.balls').eq(i).attr('src').includes('orange') && !$('.balls').eq(i).attr('src').includes('1.png')) {
                   score += 10
                   statustext = '+10'
+                  catchball[1]++
                 }
                 if ($('.balls').eq(i).attr('src').includes('green') && !$('.balls').eq(i).attr('src').includes('1.png')) {
                   score += 5
                   statustext = '+5'
+                  catchball[0]++
                 }
                 if ($('.balls').eq(i).attr('src').includes('color') && !$('.balls').eq(i).attr('src').includes('1.png')) {
                   score += 15
                   statustext = '+15'
+                  catchball[4]++
                 }
                 if ($('.balls').eq(i).attr('src').includes('blue') && !$('.balls').eq(i).attr('src').includes('1.png')) {
                   score += 12
                   statustext = '+12'
+                  catchball[2]++
                 }
                 if ($('.balls').eq(i).attr('src').includes('red') && !$('.balls').eq(i).attr('src').includes('1.png')) {
                   score += 8
                   statustext = '+8'
+                  catchball[3]++
                 }
                 $('#game').append(`<div class="status" style="height:10vh;display:flex;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:white;font-size:5rem;text-shadow:0px 0px 8px black;">${statustext}</div>`)
                 setTimeout(() => {
